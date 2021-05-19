@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Timer</title>
+
+    <style>
+      input {
+        width: 50px;
+      }
+      #time {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body onload="timer()">
+    <div id="time">Current Time : <span id="gmt"></span></div>
+    <br />
+    <h1 style="font-family: sans-serif">Future Time to compare with</h1>
+    <p>
+      <strong>After inputing the value take mouse out of the input box </strong>
+    </p>
+    <div class="date_time">
+      <span>hour </span><input type="text" maxlength="2" id="hour" /> &nbsp;
+      <span>minute </span><input type="text" maxlength="2" id="minute" /> &nbsp;
+      <span>seconds </span><input type="text" maxlength="2" id="second" />
+    </div>
+
+    <script type="text/javascript">
+      function timer() {
+        var t;
+        var time = new Date();
+        document.querySelector("span").innerHTML = time.toString();
+
+        h = time.getHours();
+        m = time.getMinutes();
+        s = time.getSeconds();
+        document.querySelector(".date_time").addEventListener(
+          "mouseout",
+          function () {
+            h_d = parseInt(document.querySelector("#hour").value);
+            m_d = parseInt(document.querySelector("#minute").value);
+            s_d = parseInt(document.querySelector("#second").value);
+
+            if (
+              // past time
+              h_d < h ||
+              (h_d == h && m_d < m) ||
+              (h_d == h && m_d == m && s_d < s)
+            ) {
+              document.querySelector("#gmt").style.color = "red";
+              clearTimeout(t);
+            }
+          },
+          true
+        );
+
+        h_d = parseInt(document.querySelector("#hour").value);
+        m_d = parseInt(document.querySelector("#minute").value);
+        s_d = parseInt(document.querySelector("#second").value);
+        if (h_d == h && m_d == m && s_d == s) {
+          document.querySelector("#gmt").style.color = "red";
+          return;
+        }
+
+        t = setTimeout(timer, 500);
+      }
+    </script>
+  </body>
+</html>
